@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Batalha Naval - Início</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.css') }}">
+</head>
+<body class="tela-inicial">
+
+  <img src="{{ url_for('static', filename='img/comecar_jogo.png') }}" class="fundo" alt="Fundo Tela Inicial">
+  
+  <div class="container">
+    <form action="{{ url_for('iniciar_jogo') }}" method="post" class="formulario">
+      <input type="text" name="jogador1" placeholder="Nome do Jogador 1" required />
+      <input type="text" name="jogador2" placeholder="Nome do Jogador 2" required />
+      <button type="submit">Começar Jogo</button>
+    </form>
+  </div>
+
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+/* Reset e fundo */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: black;
+
+  /* Imagem de fundo */
+  background-image: url('/static/img/vitoria.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* container do botão */
+.center {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* botão */
+.botao {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 18px;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.botao:hover {
+  background-color: #1c6e30;
+}

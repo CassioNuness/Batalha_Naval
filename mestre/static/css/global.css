@@ -1,0 +1,58 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Corpo padrão */
+body {
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Container genérico centralizado */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Botão padrão */
+.botao, .formulario button {
+  font-size: 18px;
+  padding: 10px 30px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.botao:hover, .formulario button:hover {
+  background-color: #0056b3;
+}
+
+/* Input padrão */
+.formulario input {
+  padding: 10px;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Formulário base */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  border-radius: 12px;
+}

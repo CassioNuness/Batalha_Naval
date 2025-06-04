@@ -1,0 +1,96 @@
+/* Garante que HTML e body ocupem 100% da altura */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Body da tela inicial */
+body.tela-inicial {
+  position: relative;
+  background-color: black;
+}
+
+/* Imagem de fundo ocupa toda a tela */
+.fundo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;             /* Preenche a tela sem distorcer */
+  object-position: center top;   /* Foco na parte superior */
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+
+/* Centraliza o conteúdo na tela */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  z-index: 1;
+  position: relative;
+}
+
+/* Formulário visual */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.formulario input {
+  padding: 10px;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.formulario button {
+  font-size: 18px;
+  padding: 10px 30px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.formulario button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  .formulario {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .formulario input {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .formulario button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}

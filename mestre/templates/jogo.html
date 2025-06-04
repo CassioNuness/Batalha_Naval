@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Batalha Naval</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/jogo.css') }}" />
+</head>
+<body>
+  
+  <!-- Painéis Superiores (Vidas dos Jogadores) -->
+  <div class="paineis-superiores">
+    
+    <!-- Vidas do Jogador 1 -->
+    <div id="vidas-jogador1" class="vidas jogador-ativo">
+      <span class="nome-jogador">{{ jogador1 }}</span>
+      <img id="v1_3" src="{{ url_for('static', filename='img/coracao_cheio.png') }}" alt="Vida 3 do Jogador 1" />
+      <img id="v1_2" src="{{ url_for('static', filename='img/coracao_cheio.png') }}" alt="Vida 2 do Jogador 1" />
+      <img id="v1_1" src="{{ url_for('static', filename='img/coracao_cheio.png') }}" alt="Vida 1 do Jogador 1" />
+    </div>
+
+    <!-- Vidas do Jogador 2 -->
+    <div id="vidas-jogador2" class="vidas">
+      <span class="nome-jogador">{{ jogador2 }}</span>
+      <img id="v2_3" src="{{ url_for('static', filename='img/coracao_cheio.png') }}" alt="Vida 3 do Jogador 2" />
+      <img id="v2_2" src="{{ url_for('static', filename='img/coracao_cheio.png') }}" alt="Vida 2 do Jogador 2" />
+      <img id="v2_1" src="{{ url_for('static', filename='img/coracao_cheio.png') }}" alt="Vida 1 do Jogador 2" />
+    </div>
+
+  </div>
+
+  <!-- Tabuleiro -->
+  <div id="tabuleiro" class="tabuleiro-wrapper"></div>
+
+  <!-- Mensagem da Rodada -->
+  <div id="mensagem-rodada" class="mensagem-rodada"></div>
+
+  <!-- Scripts -->
+  <script>
+    const jogador1 = "{{ jogador1 }}";
+    const jogador2 = "{{ jogador2 }}";
+  </script>
+  <script src="{{ url_for('static', filename='js/jogo.js') }}"></script>
+</body>
+</html>

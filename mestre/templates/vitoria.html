@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vitória!</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/vitoria.css') }}" />
+</head>
+<body>
+  <div class="center">
+    <a href="{{ url_for('inicio') }}" class="botao">Jogar Novamente</a>
+  </div>
+
+  <!-- Impede voltar com a seta do navegador -->
+  <script>
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
+  </script>
+</body>
+</html>

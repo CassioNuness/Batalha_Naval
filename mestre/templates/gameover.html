@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Game Over</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/fim.css') }}" />
+</head>
+<body>
+  <img class="fundo" src="{{ url_for('static', filename='img/game_over.png') }}" alt="Game Over" />
+  <div class="center">
+    <a href="{{ url_for('inicio') }}" class="botao">Reiniciar</a>
+  </div>
+
+  <!-- Impede voltar com a seta do navegador -->
+  <script>
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
+  </script>
+</body>
+</html>
