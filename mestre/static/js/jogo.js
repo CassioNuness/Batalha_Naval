@@ -6,7 +6,7 @@ let vidasJogador1 = 3;
 let vidasJogador2 = 3;
 let acertosJogador1 = 0;
 let acertosJogador2 = 0;
-const totalAcertosParaVencer = 15;
+const totalAcertosParaVencer = 22;
 
 const minas = gerarMinas(10);
 const navios = gerarNavios();
@@ -143,12 +143,14 @@ function clicouNaCelula(e) {
   if (minas.includes(posicao)) {
     celula.classList.add('mina');
     celula.style.backgroundImage = 'url("/static/img/bombas.png")';
+    salvarJogada(`Jogador ${jogadorAtual}`, posicao, 'mina');
     perderVida();
     trocarJogador();
   } else if (navios[posicao]) {
     const imagem = navios[posicao];
     celula.classList.add('acerto');
     celula.style.backgroundImage = `url("/static/img/${imagem}.png")`;
+    salvarJogada(`Jogador ${jogadorAtual}`, posicao, imagem);
 
     if (jogadorAtual === 1) acertosJogador1++;
     else acertosJogador2++;
@@ -166,29 +168,30 @@ function clicouNaCelula(e) {
       setTimeout(() => window.location.href = '/vitoria', 500);
       return;
     }
-    // jogador mantém vez após acerto
+    // mantém a vez
   } else {
     celula.classList.add('agua');
     celula.style.backgroundImage = 'url("/static/img/mar.png")';
+    salvarJogada(`Jogador ${jogadorAtual}`, posicao, 'agua');
     trocarJogador();
   }
 }
 
 function perderVida() {
   if (jogadorAtual === 1) {
-    const coracao = document.getElementById('v1_' + vidasJogador1);
+    const coracao = document.getElementById(`v1_${vidasJogador1}`);
     if (coracao) coracao.src = '/static/img/coracao_vazio.png';
     vidasJogador1--;
     if (vidasJogador1 === 0) {
-      alert(`💥 Jogador 1 perdeu todas as vidas! Fim de jogo.`);
+      alert('💥 Jogador 1 perdeu todas as vidas! Fim de jogo.');
       setTimeout(() => window.location.href = '/gameover', 500);
     }
   } else {
-    const coracao = document.getElementById('v2_' + vidasJogador2);
+    const coracao = document.getElementById(`v2_${vidasJogador2}`);
     if (coracao) coracao.src = '/static/img/coracao_vazio.png';
     vidasJogador2--;
     if (vidasJogador2 === 0) {
-      alert(`💥 Jogador 2 perdeu todas as vidas! Fim de jogo.`);
+      alert('💥 Jogador 2 perdeu todas as vidas! Fim de jogo.');
       setTimeout(() => window.location.href = '/gameover', 500);
     }
   }
@@ -200,4 +203,74 @@ function trocarJogador() {
   mostrarMensagemRodada();
 }
 
+function salvarJogada(jogador, posicao, resultado) {
+  fetch('/salvar_jogada', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `jogador=${encodeURIComponent(jogador)}&posicao=${encodeURIComponent(posicao)}&resultado=${encodeURIComponent(resultado)}`
+  })
+  .then(response => response.text())
+  .then(data => console.log(data))
+  .catch(error => console.error('Erro ao salvar jogada:', error));
+}
+
+async function carregarJogadasSalvas() {
+  try {
+    const response = await fetch('/carregar_todas_jogadas');
+    const jogadas = await response.json();
+
+    // Zera os contadores antes de aplicar
+    vidasJogador1 = 3;
+    vidasJogador2 = 3;
+    acertosJogador1 = 0;
+    acertosJogador2 = 0;
+
+jogadas.forEach(jogada => {
+  const celula = document.querySelector(`.celula[data-posicao="${jogada.posicao}"]`);
+  if (!celula) return;
+
+  celula.classList.add('clicada');
+
+  if (jogada.resultado === 'mina') {
+    celula.classList.add('mina');
+    celula.style.backgroundImage = 'url("/static/img/bombas.png")';
+    if (jogada.jogador === 'Jogador 1') vidasJogador1--;
+    else if (jogada.jogador === 'Jogador 2') vidasJogador2--;
+  } else if (
+    jogada.resultado.startsWith('porta_') ||
+    jogada.resultado.startsWith('submarino') ||
+    jogada.resultado.startsWith('cruzador') ||
+    jogada.resultado.startsWith('destroier')
+  ) {
+    celula.classList.add('acerto');
+    celula.style.backgroundImage = `url("/static/img/${jogada.resultado}.png")`;
+    if (jogada.jogador === 'Jogador 1') acertosJogador1++;
+    else if (jogada.jogador === 'Jogador 2') acertosJogador2++;
+  } else if (jogada.resultado === 'acerto') {
+    // Caso de fallback, se por algum motivo "acerto" genérico for salvo
+    celula.classList.add('acerto');
+    celula.style.backgroundImage = 'url("/static/img/tiro_certo.png")';
+    if (jogada.jogador === 'Jogador 1') acertosJogador1++;
+    else if (jogada.jogador === 'Jogador 2') acertosJogador2++;
+  } else if (jogada.resultado === 'agua') {
+    celula.classList.add('agua');
+    celula.style.backgroundImage = 'url("/static/img/mar.png")';
+  }
+});
+
+
+    atualizarPainelVidas();
+    atualizarPainelJogador();
+    mostrarMensagemRodada();
+
+  } catch (error) {
+    console.error('Erro ao carregar jogadas:', error);
+  }
+}
+
+
+// Iniciar o jogo
 construirTabuleiro();
+carregarJogadasSalvas();

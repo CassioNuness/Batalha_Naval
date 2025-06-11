@@ -43,6 +43,11 @@ def inicio():
 def iniciar_jogo():
     session['jogador1'] = request.form['jogador1']
     session['jogador2'] = request.form['jogador2']
+
+    # 🧹 Limpa as jogadas anteriores do banco de dados
+    db.session.query(Jogada).delete()
+    db.session.commit()
+
     return redirect(url_for('jogo'))
 
 # Rota da tela de jogo
@@ -81,6 +86,19 @@ def carregar_jogadas():
     jogador = request.args.get('jogador')
     jogadas = Jogada.query.filter_by(jogador=jogador).all()
     resultado = [{'posicao': j.posicao, 'resultado': j.resultado} for j in jogadas]
+    return jsonify(resultado)
+
+# ✅ Nova rota para carregar todas as jogadas
+@app.route('/carregar_todas_jogadas')
+def carregar_todas_jogadas():
+    jogadas = Jogada.query.order_by(Jogada.data_hora).all()
+    resultado = [
+        {
+            'jogador': j.jogador,
+            'posicao': j.posicao,
+            'resultado': j.resultado
+        } for j in jogadas
+    ]
     return jsonify(resultado)
 
 if __name__ == '__main__':
